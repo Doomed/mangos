@@ -267,16 +267,14 @@ bool ChatHandler::HandleServerMotdCommand(const char* /*args*/)
 
 bool ChatHandler::HandleBugReportCommand(const char* args)
 {
-	Player* player = m_session->GetPlayer();
-  
+
 	std::string obsah = args;
 	loginDatabase.escape_string(obsah);
 
-	std::string name = player->GetName();
  	uint32 acc_id = m_session->GetAccountId();
     uint32 type = 7;
 	
-	loginDatabase.PExecute(" INSERT INTO web_bug_report (name, time, reporter_id, type, text) ('%s', NOW() ,%u , %u, '%s')", name.c_str(), acc_id, type, obsah.c_str() );   
+	loginDatabase.PExecute(" INSERT INTO web_bug_report (name, time, reporter_id, type, text) VALUES ('InGame', NOW() ,%u , %u, '%s')",  acc_id, type, obsah.c_str() );   
     PSendSysMessage(LANG_BUG_REPORTED);
 
 	return true;
