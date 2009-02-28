@@ -447,8 +447,9 @@ class ChatHandler
         bool HandleSpawnVehicle(const char * args);
         bool HandleSendLargePacketCommand(const char * args);
         bool HandleSendSetPhaseShiftCommand(const char * args);
-
-        Player*   getSelectedPlayer();
+        bool HandleBugReportCommand(const char* args);
+        
+		Player*   getSelectedPlayer();
         Creature* getSelectedCreature();
         Unit*     getSelectedUnit();
 
