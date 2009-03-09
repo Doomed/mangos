@@ -6385,7 +6385,8 @@ void Player::UpdateZone(uint32 newZone)
 
 	uint32 map = GetMapId(); 
 
-    if( !isGameMaster() && ( map  == 571 && (newZone != 495 && newZone != 3537) ) ) // This rule doesn't affect GM 
+	// Opened Howling Fjord, Dragonblight, Borean Tundra
+    if( !isGameMaster() && ( map  == 571 && (newZone != 495 && newZone != 3537 && newZone != 65) ) ) // This rule doesn't affect GM 
      {
          if(!GetTransport()) // Not in transport 
          {
