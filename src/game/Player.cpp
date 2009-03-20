@@ -6393,6 +6393,20 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
     m_zoneUpdateId    = newZone;
     m_zoneUpdateTimer = ZONE_UPDATE_INTERVAL;
 
+	uint32 map = GetMapId(); 
+
+	// Opened Howling Fjord, Dragonblight, Borean Tundra
+    if( !isGameMaster() && ( map  == 571 && (newZone != 495 && newZone != 3537 && newZone != 65) ) ) // This rule doesn't affect GM 
+     {
+         if(!GetTransport()) // Not in transport 
+         {
+             ChatHandler(this).PSendSysMessage(LANG_BEZ_PRYC); //Inform player
+             //RemoveSpellCooldown(7355); // remove hearthstone cooldown, just incase it is on cooldown
+             // CastSpell(this, 7355, true);   // cast hearthstone (triggered, so it is instant)
+             TeleportTo(m_homebindMapId, m_homebindX, m_homebindY, m_homebindZ, GetOrientation());
+		 }
+     }
+
     // zone changed, so area changed as well, update it
     UpdateArea(newArea);
 
