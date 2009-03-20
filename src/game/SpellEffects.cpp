@@ -5306,11 +5306,10 @@ void Spell::EffectStuck(uint32 /*i*/)
 {
     if(!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
         return;
-
-    if(!sWorld.getConfig(CONFIG_CAST_UNSTUCK))
-        return;
-
     Player* pTarget = (Player*)unitTarget;
+
+    if(!sWorld.getConfig(CONFIG_CAST_UNSTUCK) && pTarget->GetSession()->GetSecurity() == SEC_PLAYER)
+     return;
 
     sLog.outDebug("Spell Effect: Stuck");
     sLog.outDetail("Player %s (guid %u) used auto-unstuck future at map %u (%f, %f, %f)", pTarget->GetName(), pTarget->GetGUIDLow(), m_caster->GetMapId(), m_caster->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ());

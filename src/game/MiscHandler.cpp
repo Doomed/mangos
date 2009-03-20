@@ -159,7 +159,7 @@ void WorldSession::HandleWhoOpcode( WorldPacket & recv_data )
     HashMapHolder<Player>::MapType& m = ObjectAccessor::Instance().GetPlayers();
     for(HashMapHolder<Player>::MapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
-        if (security == SEC_PLAYER)
+        if (security < SEC_GAMEMASTER)
         {
             // player can see member of other team only if CONFIG_ALLOW_TWO_SIDE_WHO_LIST
             if (itr->second->GetTeam() != team && !allowTwoSideWhoList )
