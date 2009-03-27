@@ -1781,6 +1781,7 @@ void Spell::EffectDummy(uint32 i)
             }
             break;
         case SPELLFAMILY_DEATHKNIGHT:
+
             // Death Coil
             if(m_spellInfo->SpellFamilyFlags & 0x002000LL)
             {
@@ -1803,7 +1804,14 @@ void Spell::EffectDummy(uint32 i)
                 m_caster->CastCustomSpell(unitTarget,spell_id,&bp,NULL,NULL,true);
                 return;
             }
-         break;
+         
+			if(m_spellInfo->Id == 49576)
+			{
+				float o = GetOrientation() + 3.14159f;
+				unitTarget->NearTeleportTo(m_caster->GetPositionX(), m_caster->GetPositionY(), m_caster->GetPositionZ(), o);
+			}
+			
+		break;
 
     }
 
