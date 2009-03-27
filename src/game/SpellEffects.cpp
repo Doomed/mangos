@@ -5192,8 +5192,60 @@ void Spell::EffectScriptEffect(uint32 effIndex)
                 }
             }
             break;
+   
+		}
+        case SPELLFAMILY_DEATHKNIGHT:
+        {
+            switch(m_spellInfo->Id)
+            {
+                // Summon Ghoul
+                case 46584:
+                {
+                    // Corpse or dust check
+                    // See if player is targeting a dead, humanoid, =plevel-3 target
+                    if( unitTarget->isDead() && unitTarget->GetCreatureType()==CREATURE_TYPE_HUMANOID && unitTarget->getLevel() >= m_caster->getLevel()-3 )
+                    {
+                        // Look for Master of Ghouls talent dummy spell (52143)
+                        if( m_caster->GetTypeId()==TYPEID_PLAYER && ((Player*)m_caster)->HasSpell(52143) )
+                        {
+                            // Player has talent; cast pet ghoul spell
+                            m_caster->CastSpell(m_caster, 52150, false);
+                        }
+                        else
+                        {
+                            // Player has not got talent; cast time limited ghoul spell
+                            m_caster->CastSpell(m_caster, 46585, false);
+                        }
+                    }
+                    else
+                    {
+                        //See if player has [Corpse Dust]; if yes -1 and continue, if no reset and break. (Note Dust removed after cast)
+                        if(((Player*)m_caster)->HasItemCount(37201,1))
+                        {
+                            ((Player*)m_caster)->DestroyItemCount(37201,1,true);
+                            // Look for Master of Ghouls talent dummy spell (52143)
+                            if( m_caster->GetTypeId()==TYPEID_PLAYER && ((Player*)m_caster)->HasSpell(52143) )
+                            {
+                                // Player has talent; cast pet ghoul spell
+                                m_caster->CastSpell(m_caster, 52150, false);
+                                ((Player*)m_caster)->DestroyItemCount(37201,1,true);
+                            }
+                            else
+                            {
+                                // Player has not got talent; cast time limited ghoul spell
+                                m_caster->CastSpell(m_caster, 46585, false);
+                                ((Player*)m_caster)->DestroyItemCount(37201,1,true);
+                            }
+                        }
+                        else
+                            m_caster->CastStop();
+                            return;
+                    }
+                        return;
+                  }
+            }
         }
-    }
+ }
 
     // normal DB scripted effect
     if(!unitTarget)
