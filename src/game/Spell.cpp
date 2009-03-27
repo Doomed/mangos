@@ -3709,6 +3709,17 @@ SpellCastResult Spell::CheckCast(bool strict)
             if(bg->GetStatus() == STATUS_WAIT_LEAVE)
                 return SPELL_FAILED_DONT_REPORT;
 
+
+	// Death Pact
+	if(m_spellInfo->Id == 48743 && m_caster->GetTypeId()==TYPEID_PLAYER)
+	{
+		Unit *t1 =  m_caster->GetUnit(*m_caster, ((Player *)m_caster)->GetSelection());
+		if(!t1 || t1->isDead() || !t1->GetOwner()) return SPELL_FAILED_BAD_TARGETS;
+		if(((Creature*)t1)->GetCreatureType()!=CREATURE_TYPE_UNDEAD 
+			|| t1->GetOwnerGUID() != m_caster->GetGUID()) return SPELL_FAILED_BAD_TARGETS;
+		 m_targets.setUnitTarget(t1);
+	}
+
     // only check at first call, Stealth auras are already removed at second call
     // for now, ignore triggered spells
     if( strict && !m_IsTriggeredSpell)
