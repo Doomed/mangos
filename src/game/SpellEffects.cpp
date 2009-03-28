@@ -1803,16 +1803,36 @@ void Spell::EffectDummy(uint32 i)
                 
                 m_caster->CastCustomSpell(unitTarget,spell_id,&bp,NULL,NULL,true);
                 return;
+           }
+            switch(m_spellInfo->Id)
+            {
+                // Death Grip
+                case 49560:
+                case 49576:
+                {
+                    if (!unitTarget || !m_caster)
+                        return;
+
+                    uint32 mapid = m_caster->GetMapId();
+                    float x = m_caster->GetPositionX();
+                    float y = m_caster->GetPositionY();
+                    float z = m_caster->GetPositionZ()+3;
+                    float orientation = unitTarget->GetOrientation();
+                
+                    unitTarget->SendMonsterMove(x, y, z, 0, MOVEMENTFLAG_JUMPING, 1);
+
+                    if(unitTarget->GetTypeId() != TYPEID_PLAYER)
+                        unitTarget->GetMap()->CreatureRelocation((Creature*)unitTarget,x,y,z,orientation);
+                    else
+                        unitTarget->NearTeleportTo(x,y,z,orientation,false);
+
+                    m_caster->CastSpell(unitTarget,49575,true,NULL);
+                    return;
+                }
             }
-         
-			if(m_spellInfo->Id == 49576)
-			{
-				float o = GetOrientation() + 3.14159f;
-				unitTarget->NearTeleportTo(m_caster->GetPositionX(), m_caster->GetPositionY(), m_caster->GetPositionZ(), o);
-			}
+            break;
 			
 		break;
-
     }
 
     // pet auras
