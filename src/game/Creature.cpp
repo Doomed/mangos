@@ -1252,7 +1252,7 @@ bool Creature::CreateFromProto(uint32 guidlow, uint32 Entry, uint32 team, const 
     CreatureInfo const *cinfo = objmgr.GetCreatureTemplate(Entry);
     if(!cinfo)
     {
-        sLog.outErrorDb("Error: creature entry %u does not exist.", Entry);
+        sLog.outErrorDb("Creature entry %u does not exist.", Entry);
         return false;
     }
     m_originalEntry = Entry;
@@ -1295,7 +1295,7 @@ bool Creature::LoadFromDB(uint32 guid, Map *map)
 
     if(!IsPositionValid())
     {
-        sLog.outError("ERROR: Creature (guidlow %d, entry %d) not loaded. Suggested coordinates isn't valid (X: %f Y: %f)",GetGUIDLow(),GetEntry(),GetPositionX(),GetPositionY());
+        sLog.outError("Creature (guidlow %d, entry %d) not loaded. Suggested coordinates isn't valid (X: %f Y: %f)",GetGUIDLow(),GetEntry(),GetPositionX(),GetPositionY());
         return false;
     }
 
@@ -1586,7 +1586,9 @@ SpellEntry const *Creature::reachWithSpellAttack(Unit *pVictim)
         SpellRangeEntry const* srange = sSpellRangeStore.LookupEntry(spellInfo->rangeIndex);
         float range = GetSpellMaxRange(srange);
         float minrange = GetSpellMinRange(srange);
-        float dist = GetDistance(pVictim);
+
+        float dist = GetCombatDistance(pVictim);
+
         //if(!isInFront( pVictim, range ) && spellInfo->AttributesEx )
         //    continue;
         if( dist > range || dist < minrange )
@@ -1632,7 +1634,9 @@ SpellEntry const *Creature::reachWithSpellCure(Unit *pVictim)
         SpellRangeEntry const* srange = sSpellRangeStore.LookupEntry(spellInfo->rangeIndex);
         float range = GetSpellMaxRange(srange);
         float minrange = GetSpellMinRange(srange);
-        float dist = GetDistance(pVictim);
+
+        float dist = GetCombatDistance(pVictim);
+
         //if(!isInFront( pVictim, range ) && spellInfo->AttributesEx )
         //    continue;
         if( dist > range || dist < minrange )

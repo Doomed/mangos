@@ -80,6 +80,7 @@ class ChatHandler
 
         void SendGlobalSysMessage(const char *str);
 
+        bool SetDataForCommandInTable(ChatCommand *table, const char* text, uint32 security, std::string const& help, std::string const& fullcommand );
         bool ExecuteCommandInTable(ChatCommand *table, const char* text, const std::string& fullcommand);
         bool ShowHelpForCommand(ChatCommand *table, const char* cmd);
         bool ShowHelpForSubCommands(ChatCommand *table, char const* cmd, char const* subcmd);
@@ -134,6 +135,7 @@ class ChatHandler
         bool HandleLearnAllDefaultCommand(const char* args);
         bool HandleLearnAllLangCommand(const char* args);
         bool HandleLearnAllMyClassCommand(const char* args);
+        bool HandleLearnAllMyPetTalentsCommand(const char* args);
         bool HandleLearnAllMySpellsCommand(const char* args);
         bool HandleLearnAllMyTalentsCommand(const char* args);
 
@@ -346,7 +348,7 @@ class ChatHandler
         bool HandleGoXYZCommand(const char* args);
         bool HandleGoZoneXYCommand(const char* args);
         bool HandleGoGridCommand(const char* args);
-        bool HandleAllowMovementCommand(const char* args);
+        bool HandleNpcAllowMovementCommand(const char* args);
         bool HandleGoCommand(const char* args);
 
         bool HandleCooldownCommand(const char* args);
@@ -390,11 +392,10 @@ class ChatHandler
         bool HandleResetHonorCommand(const char * args);
         bool HandleResetLevelCommand(const char * args);
         bool HandleResetSpellsCommand(const char * args);
-
         bool HandleResetStatsCommand(const char * args);
         bool HandleResetTalentsCommand(const char * args);
-
         bool HandleResetAllCommand(const char * args);
+
         bool HandleTicketCommand(const char* args);
         bool HandleDelTicketCommand(const char* args);
         bool HandleMaxSkillCommand(const char* args);
@@ -416,7 +417,6 @@ class ChatHandler
         bool HandleDebugSellErrorCommand(const char* args);
         bool HandleDebugBuyErrorCommand(const char* args);
         bool HandleDebugUpdateWorldStateCommand(const char* args);
-        bool HandleDebugPlaySound2Command(const char* args);
         bool HandleDebugSendChannelNotifyCommand(const char* args);
         bool HandleDebugSendChatMsgCommand(const char* args);
         bool HandleRenameCommand(const char * args);
@@ -451,6 +451,7 @@ class ChatHandler
         bool HandleDebugSpawnVehicle(const char * args);
         bool HandleDebugSendLargePacketCommand(const char * args);
         bool HandleDebugSendSetPhaseShiftCommand(const char * args);
+        bool HandleDebugSetItemFlagCommand(const char * args);
 
         Player*   getSelectedPlayer();
         Creature* getSelectedCreature();
