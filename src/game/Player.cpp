@@ -5987,7 +5987,7 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
 	// Opened Howling Fjord, Dragonblight, Borean Tundra, Grizzly hills, Dalaran, Crystalong
     if( !isGameMaster() && ( map  == 571 && (newZone != 495 && newZone != 3537 && newZone != 65 && newZone != 394 && newZone != 4197 && newZone != 2817 && newZone != 4395) ) ) // This rule doesn't affect GM 
      {
-         if(!GetTransport()) // Not in transport 
+         if(!GetTransport() && !isInFlight()) // Not in transport, taxi
          {
              ChatHandler(this).PSendSysMessage(LANG_BEZ_PRYC); //Inform player
              //RemoveSpellCooldown(7355); // remove hearthstone cooldown, just incase it is on cooldown
