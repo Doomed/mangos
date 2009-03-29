@@ -307,9 +307,17 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
         }
     }
 
-    // speedup check for heroic class disabled case
+	// VIP only
+    if(GetSecurity() < SEC_MODERATOR && class_ == CLASS_DEATH_KNIGHT)
+    {
+        data << (uint8)CHAR_CREATE_UNIQUE_CLASS_LIMIT;
+        SendPacket( &data );
+        return;
+    }
+
+
     uint32 heroic_free_slots = sWorld.getConfig(CONFIG_HEROIC_CHARACTERS_PER_REALM);
-    if(heroic_free_slots==0 && GetSecurity() < SEC_GAMEMASTER && class_ == CLASS_DEATH_KNIGHT)
+    if(heroic_free_slots==0 && GetSecurity()==SEC_PLAYER && class_ == CLASS_DEATH_KNIGHT)
     {
         data << (uint8)CHAR_CREATE_UNIQUE_CLASS_LIMIT;
         SendPacket( &data );
@@ -344,7 +352,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
             Field* field = result2->Fetch();
             uint8 acc_race  = field[1].GetUInt32();
 
-            if(GetSecurity()==SEC_PLAYER && class_ == CLASS_DEATH_KNIGHT)
+            if(GetSecurity() < SEC_GAMEMASTER && class_ == CLASS_DEATH_KNIGHT)
             {
                 uint8 acc_class = field[2].GetUInt32();
                 if(acc_class == CLASS_DEATH_KNIGHT)
