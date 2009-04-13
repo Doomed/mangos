@@ -307,14 +307,6 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
         }
     }
 
-	// VIP only
-    if(GetSecurity() < SEC_MODERATOR && class_ == CLASS_DEATH_KNIGHT)
-    {
-        data << (uint8)CHAR_CREATE_UNIQUE_CLASS_LIMIT;
-        SendPacket( &data );
-        return;
-    }
-
 
     uint32 heroic_free_slots = sWorld.getConfig(CONFIG_HEROIC_CHARACTERS_PER_REALM);
     if(heroic_free_slots==0 && GetSecurity()==SEC_PLAYER && class_ == CLASS_DEATH_KNIGHT)
