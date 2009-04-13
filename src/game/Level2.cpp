@@ -2072,7 +2072,7 @@ bool ChatHandler::HandleModifyMorphCommand(const char* args)
 //kick player
 bool ChatHandler::HandleKickPlayerCommand(const char *args)
 {
-    if (!args)
+    if (!*args)
     {
         Player* player = getSelectedPlayer();
 
@@ -3771,17 +3771,6 @@ bool ChatHandler::HandleCustomizeCommand(const char* args)
         CharacterDatabase.PExecute("UPDATE characters SET at_login = at_login | '8' WHERE guid = '%u'", GUID_LOPART(targetGUID));
     }
 
-    return true;
-}
-
-//show animation
-bool ChatHandler::HandleDebugAnimCommand(const char* args)
-{
-    if (!*args)
-        return false;
-
-    uint32 anim_id = atoi((char*)args);
-    m_session->GetPlayer()->HandleEmoteCommand(anim_id);
     return true;
 }
 
