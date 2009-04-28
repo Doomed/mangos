@@ -5982,16 +5982,12 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
     m_zoneUpdateId    = newZone;
     m_zoneUpdateTimer = ZONE_UPDATE_INTERVAL;
 
-	uint32 map = GetMapId(); 
-
-	// Opened Howling Fjord, Dragonblight, Borean Tundra, Grizzly hills, Dalaran, Crystalong
-    if( !isGameMaster() && ( map  == 571 && (newZone != 495 && newZone != 3537 && newZone != 65 && newZone != 394 && newZone != 4197 && newZone != 2817 && newZone != 4395) ) ) // This rule doesn't affect GM 
+	// Denied Stormpeaks, ZulDrak and Icecrown, no for GM
+    if( !isGameMaster() && ( newZone == 66 || newZone == 210 || newZone == 67 ) )  
      {
          if(!GetTransport() && !isInFlight()) // Not in transport, taxi
          {
              ChatHandler(this).PSendSysMessage(LANG_BEZ_PRYC); //Inform player
-             //RemoveSpellCooldown(7355); // remove hearthstone cooldown, just incase it is on cooldown
-             // CastSpell(this, 7355, true);   // cast hearthstone (triggered, so it is instant)
              TeleportTo(m_homebindMapId, m_homebindX, m_homebindY, m_homebindZ, GetOrientation());
 		 }
      }
