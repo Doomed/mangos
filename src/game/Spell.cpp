@@ -3655,6 +3655,16 @@ SpellCastResult Spell::CheckCast(bool strict)
         }
     }
 
+	if(m_spellInfo->Id == 498 || m_spellInfo->Id == 1022 || m_spellInfo->Id == 5599 || m_spellInfo->Id == 10278)
+        {
+        Unit *target = m_targets.getUnitTarget();
+
+        if(target->HasAura(25771))
+            return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+        }
+    if(m_spellInfo->Id == 642 && m_caster->HasAura(25771))
+        return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+
     // caster state requirements
     if(m_spellInfo->CasterAuraState && !m_caster->HasAuraState(AuraState(m_spellInfo->CasterAuraState)))
         return SPELL_FAILED_CASTER_AURASTATE;
