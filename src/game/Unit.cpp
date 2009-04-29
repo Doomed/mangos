@@ -391,12 +391,12 @@ uint32 Unit::DealDamage(Unit *pVictim, uint32 damage, CleanDamage const* cleanDa
         RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
         RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH);
 
-		Unit::AuraMap const& PlayerAurass = GetAuras();
+		Unit::AuraMap const& PlayerAurass = pVictim->GetAuras();
         for(Unit::AuraMap::const_iterator itr = PlayerAurass.begin();itr!=PlayerAurass.end();itr++)
         {
              if((*itr).second->GetId() == 22570 || (*itr).second->GetId() == 49802)
              {
-                 RemoveAurasDueToSpell((*itr).second->GetId());
+				 pVictim->RemoveAurasDueToSpell((*itr).second->GetId());
                  break;
              }
         }
