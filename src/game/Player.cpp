@@ -5982,15 +5982,15 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
     m_zoneUpdateId    = newZone;
     m_zoneUpdateTimer = ZONE_UPDATE_INTERVAL;
 
-	// Denied Stormpeaks, ZulDrak and Icecrown, no for GM
-    if( !isGameMaster() && ( newZone == 66 || newZone == 210 || newZone == 67 ) )  
-     {
+	// Denied ZulDrak and Icecrown, no for GM
+    if( !isGameMaster() && ( newZone == 66 || newZone == 210 ) )  
+    {
          if(!GetTransport() && !isInFlight()) // Not in transport, taxi
          {
              ChatHandler(this).PSendSysMessage(LANG_BEZ_PRYC); //Inform player
              TeleportTo(m_homebindMapId, m_homebindX, m_homebindY, m_homebindZ, GetOrientation());
-		 }
-     }
+         }
+    }
 
     // zone changed, so area changed as well, update it
     UpdateArea(newArea);
